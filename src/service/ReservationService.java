@@ -1,82 +1,73 @@
 package service;
-import Model.Customer;
 import Model.IRoom;
 import Model.*;
 
+import Model.*;
 import java.util.*;
-
 public class ReservationService {
-
-    private static ReservationService ReservationService = null;
+    private static ReservationService reservationService = null;
+    Collection<IRoom> rooms = new HashSet<>();
     Collection<Reservation> reservations = new HashSet<>();
-    //List<IRoom> roomes = new ArrayList<IRoom>();
-    public Collection<IRoom> rooms = new HashSet<>();
-
     private ReservationService() {
     }
-    //static reference for Reservation class
-    public static ReservationService getInstance(){
-        if (ReservationService == null){
-            ReservationService = new ReservationService();
+    public static ReservationService getInstance() {
+        if (null == reservationService) {
+            reservationService = new ReservationService();
         }
-        return ReservationService;
+        return reservationService;
     }
-
-    public void addRoom(IRoom room) {
-
-
-        // rooms.add(room);
-
+    // Collection<IRoom> unavailableRoomsAccordingToDates = new HashSet<>();
+    public void addRoom(String roomNumber, double price, RoomType roomType) {
+        Room room = new Room(roomNumber, price, roomType);
         rooms.add(room);
-
     }
-
-    public IRoom getARoom(String roomId) {
-        //for(IRoom room : rooms){
-
-        //  System.out.println(room);
-        // }
-        // return (IRoom) rooms;
+    public IRoom getARoom(String roomNumber) {
         for (IRoom room : rooms) {
-            System.out.println(room);
+            if (roomNumber.equals(room.getRoomNumber())) {
+                return room;
+            }
         }
-        return (IRoom) rooms;
+        return null;
     }
-
-    public Reservation reservation(Customer customer, IRoom room, Date checkInDate, Date checkOutDate) {
-        Reservation reservedRoom = new Reservation(customer, room, checkInDate, checkOutDate);
-        reservations.add(reservedRoom);
-        return reservedRoom;
+    public Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate) {
+        Reservation reservation = new Reservation(customer, room, checkInDate, checkOutDate);
+        reservations.add(reservation);
+        return reservation;
     }
-
-    public Collection<IRoom> findRooms(Date checkInDate, Date checkOutDate) {
-        for (IRoom room : rooms) {
-            if (checkInDate.after(checkInDate) && checkInDate.before(checkOutDate)) {
-                Iterator<IRoom> iRoomIterator = rooms.iterator();
-                while (iRoomIterator.hasNext()) {
-                    System.out.println(iRoomIterator.next());
+    public List<IRoom> findRooms(Date checkInDate, Date checkOutDate) {
+        boolean found = false;
+        List<IRoom> findAvailableRooms = new ArrayList<>();
+        if (reservations.size() == 0) {
+            findAvailableRooms = new ArrayList<>(rooms);
+        } else {
+            for (IRoom room : rooms) {
+                for (Reservation reservation : reservations) {
+                    if ((room.getRoomNumber() == reservation.getRoom().getRoomNumber()
+                            && ((!checkInDate.after(reservation.getCheckInDate()) &&
+                            !checkInDate.before(reservation.getCheckOutDate())) ||
+                            (!checkOutDate.after(reservation.getCheckInDate()) &&
+                                    !checkInDate.before(reservation.getCheckOutDate())))) ||
+                            (!reservation.getRoom().getRoomNumber().contains(room.getRoomNumber()))) {
+                        findAvailableRooms.add(room);
+                    }
                 }
             }
         }
-        return rooms;
-
+        return findAvailableRooms;
     }
-    public Collection<Reservation> getCustomerReservation(Customer customer) {
-
-        CustomerService.getInstance().getCustomer(customer.getMail());
-
-        return reservations;
-
-    }
-
-    public void printAllReservation() {
-
-        for(Reservation reservation: reservations){
-
-            System.out.println(reservation);
+    public List<Reservation> getCustomersReservation(String customer) {
+        List<Reservation> reservationsByCustomer = new ArrayList<>();
+        for (Reservation reservation : reservations) {
+            if (reservation.getCustomer().equals(customer)) {
+                reservationsByCustomer.add(reservation);
+            }
         }
-
+        return reservationsByCustomer;
     }
-
-
+    public Collection<Reservation> getAllReservations() {
+        return reservations;
+    }
+    public Collection<IRoom> allRooms() {
+        return rooms;
+    }
 }

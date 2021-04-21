@@ -5,40 +5,29 @@ import service.*;
 import java.util.Collection;
 import java.util.List;
 
+import Model.Customer;
+import Model.*;
+import service.CustomerService;
+import service.ReservationService;
+import java.util.Collection;
+import java.util.List;
 public class AdminResource {
-
-    public static final AdminResource adminResource = new AdminResource ( );
-    private CustomerService customerService = CustomerService.getInstance();
-    private ReservationService reservationService = ReservationService.getInstance();
-    public Customer getCustomer(String email){
-        return CustomerService.getInstance().getCustomer(email);
+    public static final CustomerService customerService = new CustomerService();
+    public static final ReservationService reservationService = ReservationService.getInstance();
+    public Customer getCustomer(String email) {
+        return customerService.getCustomer(email);
     }
-
-    public void addRoom(List<IRoom> rooms){
-        for(IRoom room : rooms){
-
-            reservationService.addRoom(room);
-
-        }
-
+    public static void createRooms(String roomNumber, double price, RoomType roomType) {
+        reservationService.addRoom(roomNumber, price,roomType);
+        System.out.println("Your Room has been Created!");
     }
-    public Collection<IRoom> getAllRoom(){
-
-       return reservationService.rooms;
- }
-
- public Collection<Customer> getAllCustomer(){
+    public static Collection<IRoom> getAllRooms() {
+        return reservationService.allRooms();
+    }
+    public static Collection<Customer> getAllCustomer() {
         return customerService.getAllCustomers();
-
- }
-
- public void displayAllReservations(){
-
-
-        reservationService.printAllReservation();
-
-
- }
-
-
+    }
+    public static Collection<Reservation> getAllReservations(){
+        return reservationService.getAllReservations();
+    }
 }
