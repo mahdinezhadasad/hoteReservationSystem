@@ -1,13 +1,14 @@
 package api;
 import Model.IRoom;
-import api.HotelResource;
+
 import Model.Customer;
 import Model.IRoom;
 import service.CustomerService;
 import service.ReservationService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.Scanner;
 public class MainMenu {
     private static final CustomerService customerService = new CustomerService();
     private static final ReservationService reservationService = ReservationService.getInstance();
@@ -25,7 +26,7 @@ public class MainMenu {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter Customer Email:");
         String email = scanner.next();
-        System.out.println(HotelResource.getCustomersReservation(email));
+        System.out.println(reservationService.getCustomersReservation(email));
     }
     private static Customer createAccount() {
         Scanner scanner = new Scanner(System.in);
@@ -35,7 +36,7 @@ public class MainMenu {
         String lastName = scanner.next();
         System.out.println("Enter Customer Email:");
         String email = scanner.next();
-        HotelResource.createACustomer(email, firstName, lastName);
+        customerService.addCustomer(email, firstName, lastName);
         return new Customer(firstName, lastName, email);
     }
     private static void findAndReserveARoom() {
@@ -63,15 +64,16 @@ public class MainMenu {
         }
         //////Add in Code here to make reservations once we get an Idea of how it will display
         System.out.println("Available Hotel Rooms for your Days of Travel");
-        System.out.println(HotelResource.findARoom(checkInDate , checkOutDate));
+        System.out.println(reservationService.findRooms(checkInDate , checkOutDate));
         System.out.println("Enter room number: ");
         String roomNumber = scanner.next();
-        IRoom room = HotelResource.getRoom(roomNumber);
+        IRoom room = reservationService.getARoom(roomNumber);
         System.out.println(room);
         System.out.println(roomNumber);
         System.out.println("Enter customer email: ");
         String email = scanner.next();
-        HotelResource.bookARoom(email , room , checkInDate , checkOutDate);
+        Customer customer = CustomerService.getInstance().getCustomer(email);
+        reservationService.reserveARoom(customer , room , checkInDate , checkOutDate);
         System.out.println(email + room + checkInDate + checkOutDate);
         System.out.println("Your Reservation has been booked");
         // return HotelResource.findARoom(checkInDate , checkOutDate);
@@ -100,7 +102,7 @@ public class MainMenu {
                 case 4:
                     //switches to admin menu
                     System.out.println("You Selected the Admin Menu");
-                    AdminMenu.startAdmin();
+                    AdminMenu.selectionImplementation();
                     return;
                 case 5:
                     //closes console

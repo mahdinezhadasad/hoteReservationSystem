@@ -11,11 +11,11 @@ import java.util.Scanner;
 
 public class AdminMenu {
 
+    public static int exitApp = 5;
+    public static void startAdmin() {
 
-    public static int startAdmin() {
 
 
-        Scanner scanner = new Scanner(System.in);
 
         System.out.println("ADMIN MENU");
         System.out.println("Choose option");
@@ -24,13 +24,15 @@ public class AdminMenu {
         System.out.println("3. See all reservations");
         System.out.println("4. Add a Room");
         System.out.println("5. Back to Main Menu");
-        int selection = scanner.nextInt();
-        System.out.println("you have selected " + selection);
-        return selection;
+
     }
 
     public static void seeAllCustomer() {
-        CustomerService.getInstance().getAllCustomers();
+        CustomerService.getInstance().getAllCustomers()
+
+        ;
+
+        startAdmin();
     }
 
 
@@ -76,48 +78,63 @@ public class AdminMenu {
             ReservationService.getInstance().addRoom(newRoomNumber, newRoomPrice, RoomType.values()[newRoomType]);
         }
 
+        startAdmin();
+
     }
 
-    public static void selectionImplementation(int selection){
+    public static void selectionImplementation(){
+
+        Scanner scanner = new Scanner(System.in);
+        startAdmin();
 
 
-        switch(selection){
+        int selection = scanner.nextInt();
+        System.out.println("you have selected " + selection);
 
-            case 1:
-                seeAllCustomer();
+        while (selection != exitApp) {
+            switch (selection) {
+                case 1:
 
-                break;
+                    seeAllCustomer();
+                    //finds and Reserves a room
+                    System.out.println("You Selected to see Reservation");
+                    ;
+                    break;
+                case 2:
 
+                    seeAllRooms();
+                    //Views the customers current reservations
+                    System.out.println("You Selected to view your Rooms");
+                    ;
+                    break;
+                case 3:
+                    seeAllReservations();
+                    //creates a user account
+                    System.out.println("You Selected to See all reservation");
+                    ;
+                    break;
+                case 4:
+                    addRoomMenu();
+                    System.out.println("You Selected to add room");
+                    break;
+                case 5:
+                    //closes console
+                    ;
+                    System.exit(0);
+                default:
+                    //User inputs an unexpected choice
+                    System.out.println("Incorrect Input");
+                    break;
+            }
 
-            case 2:
-                seeAllRooms();
-
-
-                break;
-
-
-            case 3:
-
-                seeAllReservations();
-
-
-                break;
-
-
-            case 4:
-
-                addRoomMenu();
-
-                break;
-
-            case 5:
-
-                MainMenu.display_Menu();
-
-
-                break;
+            //startAdmin();
+            selection = scanner.nextInt();
 
         }
+
+
+
+
 
     }
 

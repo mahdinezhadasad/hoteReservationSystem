@@ -58,7 +58,9 @@ public class ReservationService {
     public List<Reservation> getCustomersReservation(String customer) {
         List<Reservation> reservationsByCustomer = new ArrayList<>();
         for (Reservation reservation : reservations) {
-            if (reservation.getCustomer().equals(customer)) {
+            Customer customerr = CustomerService.getInstance().getCustomer(customer);
+
+            if (reservation.getCustomer().equals(customerr)) {
                 reservationsByCustomer.add(reservation);
             }
         }
@@ -70,4 +72,24 @@ public class ReservationService {
     public Collection<IRoom> allRooms() {
         return rooms;
     }
+
+    public void printAllRooms(){
+
+        for(IRoom room : rooms){
+
+            System.out.println(room);
+
+        }
+
+
+          }
+          public void printAllReseverations(){
+
+        for(Reservation reservation : reservations){
+
+
+            System.out.println(reservation);
+        }
+
+          }
 }
