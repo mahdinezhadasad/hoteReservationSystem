@@ -29,7 +29,7 @@ public class CustomerService {
 
     //method to add Customers
     public void addCustomer(String email, String firstName, String lastName){
-        Customer newCustomer = new Customer(email, firstName, lastName);
+        Customer newCustomer = new Customer( firstName, lastName,email);
         customers.add(newCustomer);
     }
     //method to retrieve customers from Customer Collection
