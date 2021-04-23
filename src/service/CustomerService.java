@@ -37,25 +37,26 @@ public class CustomerService {
         customers.add(newCustomer);
     }
     //method to retrieve customers from Customer Collection
-   // public Customer getCustomer(String customerEmail) {
-       // Optional<Customer> customer = customers.stream().filter(c -> customerEmail.equals(c.getMail())).findFirst();
-       // return customer.orElse(null);
+    public Customer getCustomer(String customerEmail) {
+       Optional<Customer> customer = customers.stream().filter(c -> customerEmail.equals(c.getMail())).findFirst();
+       return customer.orElse(null);
+
 
         
-    //}
+   }
 
-    public Customer getCustomer ( String customerEmail ) {
-        try {
-            List<Customer> list = new ArrayList<
-                    >(customers);
-            for ( int i = 0; i < list.size(); i++ ) {
-                if ( list.get(i).getMail() == customerEmail ) {
-                    return list.get( i );
-                }
-            }
-        } catch ( ArrayIndexOutOfBoundsException exception ) {
-            System.out.println ( "This email does not match any customer in our database, please try again" );
-        }
-        return null;
-    }
+   // public Customer getCustomer ( String customerEmail ) {
+       // try {
+           // List<Customer> list = new ArrayList<
+            //        >(customers);
+           // for ( int i = 0; i < list.size(); i++ ) {
+           //     if ( list.get(i).getMail() == customerEmail ) {
+            //        return list.get( i );
+            //    }
+         //   }
+     //   } catch ( ArrayIndexOutOfBoundsException exception ) {
+      //      System.out.println ( "This email does not match any customer in our database, please try again" );
+      //  }
+      //  return null;
+   // }
 }

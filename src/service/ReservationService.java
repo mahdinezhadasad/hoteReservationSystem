@@ -67,13 +67,13 @@ public class ReservationService {
         return reservationsByCustomer;
     }
     public Collection<Reservation> getAllReservations() {
-        if (!reservations.isEmpty()) {
-            Iterator<Reservation> customerIterator = reservations.iterator();
+       if (!reservations.isEmpty()) {
+           Iterator<Reservation> customerIterator = reservations.iterator();
             while (customerIterator.hasNext()) {
-                System.out.println(customerIterator.next());
-            }
+               System.out.println(customerIterator.next());
+           }
 
-        }
+       }
         return reservations;
     }
     public Collection<IRoom> allRooms() {
