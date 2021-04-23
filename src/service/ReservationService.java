@@ -16,7 +16,7 @@ public class ReservationService {
         }
         return reservationService;
     }
-    // Collection<IRoom> unavailableRoomsAccordingToDates = new HashSet<>();
+
     public void addRoom(String roomNumber, double price, RoomType roomType) {
         Room room = new Room(roomNumber, price, roomType);
         rooms.add(room);
@@ -79,22 +79,14 @@ public class ReservationService {
     public Collection<IRoom> allRooms() {
         return rooms;
     }
-
     public void printAllRooms(){
-
         for(IRoom room : rooms){
-
             System.out.println(room);
-
         }
-
-
           }
           public void printAllReseverations(){
 
         for(Reservation reservation : reservations){
-
-
             System.out.println(reservation);
         }
 
