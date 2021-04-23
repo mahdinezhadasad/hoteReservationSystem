@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 public class MainMenu {
-    private static final CustomerService customerService = new CustomerService();
+    private static final CustomerService customerService = CustomerService.getInstance();
     private static final ReservationService reservationService = ReservationService.getInstance();
     public static int exitApp = 5;
     public static Scanner input;

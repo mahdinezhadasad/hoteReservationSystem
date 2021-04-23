@@ -1,6 +1,4 @@
 package api;
-
-
 import Model.*;
 import service.CustomerService;
 import service.ReservationService;
@@ -8,46 +6,30 @@ import java.util.Collection;
 import java.util.List;
 import api.HotelResource;
 import java.util.Scanner;
-
 public class AdminMenu {
-
     public static int exitApp = 5;
     public static void startAdmin() {
-
-
-
-
         System.out.println("ADMIN MENU");
         System.out.println("Choose option");
         System.out.println("1. See all customers");
         System.out.println("2. See all rooms");
         System.out.println("3. See all reservations");
         System.out.println("4. Add a Room");
-        System.out.println("5. Back to Main Menu");
-
+        System.out.println("6. Back to Main Menu");
     }
-
     public static void seeAllCustomer() {
         CustomerService.getInstance().getAllCustomers()
-
         ;
-
         startAdmin();
     }
-
-
     public static void seeAllRooms() {
-
-        ReservationService.getInstance().allRooms();
-
+        ReservationService.getInstance().printAllRooms();
+        startAdmin();
     }
-
     public static void seeAllReservations() {
-
         ReservationService.getInstance().getAllReservations();
-
+        startAdmin();
     }
-
     public static void addRoomMenu() {
         boolean addAnotherRoom = true;
         String newRoomNumber;
@@ -77,35 +59,24 @@ public class AdminMenu {
             }
             ReservationService.getInstance().addRoom(newRoomNumber, newRoomPrice, RoomType.values()[newRoomType]);
         }
-
         startAdmin();
-
     }
-
     public static void selectionImplementation(){
-
         Scanner scanner = new Scanner(System.in);
         startAdmin();
-
-
         int selection = scanner.nextInt();
         System.out.println("you have selected " + selection);
-
         while (selection != exitApp) {
             switch (selection) {
                 case 1:
-
                     seeAllCustomer();
                     //finds and Reserves a room
                     System.out.println("You Selected to see Reservation");
                     ;
                     break;
                 case 2:
-
-                    seeAllRooms();
-                    //Views the customers current reservations
                     System.out.println("You Selected to view your Rooms");
-                    ;
+                    seeAllRooms();
                     break;
                 case 3:
                     seeAllReservations();
@@ -117,25 +88,23 @@ public class AdminMenu {
                     addRoomMenu();
                     System.out.println("You Selected to add room");
                     break;
-                case 5:
-                    //closes console
-                    ;
-                    System.exit(0);
-                default:
-                    //User inputs an unexpected choice
-                    System.out.println("Incorrect Input");
-                    break;
+                case  6:
+                    //System.out.println("You Selected to back main menu");
+                    MainMenu mainmenu = new MainMenu();
+
+                    String[] args = {};
+                    mainmenu.main(args);
+
+
+
+
+                    System.out.println("it is late hurry up");
+                     break;
+
+
             }
-
-            //startAdmin();
+//            startAdmin();
             selection = scanner.nextInt();
-
         }
-
-
-
-
-
     }
-
 }

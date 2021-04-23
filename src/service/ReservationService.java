@@ -58,15 +58,22 @@ public class ReservationService {
     public List<Reservation> getCustomersReservation(String customer) {
         List<Reservation> reservationsByCustomer = new ArrayList<>();
         for (Reservation reservation : reservations) {
-            Customer customerr = CustomerService.getInstance().getCustomer(customer);
+            Customer customers = CustomerService.getInstance().getCustomer(customer);
 
-            if (reservation.getCustomer().equals(customerr)) {
+            if (reservation.getCustomer().equals(customers)) {
                 reservationsByCustomer.add(reservation);
             }
         }
         return reservationsByCustomer;
     }
     public Collection<Reservation> getAllReservations() {
+        if (!reservations.isEmpty()) {
+            Iterator<Reservation> customerIterator = reservations.iterator();
+            while (customerIterator.hasNext()) {
+                System.out.println(customerIterator.next());
+            }
+
+        }
         return reservations;
     }
     public Collection<IRoom> allRooms() {
